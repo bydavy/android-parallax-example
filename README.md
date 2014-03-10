@@ -1,7 +1,7 @@
 android-parallax-example
 ========================
 
-Example of parallax effect in Android.
+This is an example of parallax effect implemented with Android UI toolkit. Some shortcuts have been taken. The UI is implemented directly in the Activity (not fragments) and it has been tested only on Nexus 4.
 
 ## Video
 <a href="http://www.youtube.com/watch?feature=player_embedded&v=4Wk4mnN1eH8
