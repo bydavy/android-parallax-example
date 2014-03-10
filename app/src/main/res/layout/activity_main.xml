@@ -1,0 +1,58 @@
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+       xmlns:tools="http://schemas.android.com/tools"
+       tools:context="com.bydavy.parallax.app.MainActivity">
+
+    <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/image_height"
+            android:src="@drawable/trona_pinnacles"
+            android:scaleType="centerCrop"/>
+
+    <com.bydavy.parallax.app.TrackingScrollView
+            android:id="@+id/scroller"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        <LinearLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+            <FrameLayout android:layout_width="match_parent"
+                         android:layout_height="wrap_content">
+
+                <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                    <!-- Should have the same height as R.id.image -->
+                    <Space android:layout_width="wrap_content"
+                           android:layout_height="@dimen/image_height"/>
+
+                    <include layout="@layout/content"/>
+                </LinearLayout>
+
+                <!-- Should have a margin top equal to R.id.image's height -->
+                <TextView
+                        android:id="@+id/presentation"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/image_height"
+                        android:background="@drawable/rectangle"
+                        android:textStyle="bold"
+                        android:textSize="20sp"
+                        android:layout_gravity="center_horizontal"
+                        android:padding="20dp"
+
+                        android:text="Scroll down"/>
+            </FrameLayout>
+
+
+        </LinearLayout>
+
+    </com.bydavy.parallax.app.TrackingScrollView>
+
+</merge>
