@@ -25,7 +25,6 @@ public class MainActivity extends Activity {
 		mImageHeight = mImage.getLayoutParams().height;
 
 		mScroller = (TrackingScrollView) findViewById(R.id.scroller);
-		mScroller.setSmoothScrollingEnabled(false);
 		mScroller.setOnScrollChangedListener(new TrackingScrollView.OnScrollChangedListener() {
 			@Override
 			public void onScrollChanged(TrackingScrollView source, int l, int t, int oldl, int oldt) {
