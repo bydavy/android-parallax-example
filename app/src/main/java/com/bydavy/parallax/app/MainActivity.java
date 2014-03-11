@@ -1,7 +1,6 @@
 package com.bydavy.parallax.app;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -10,21 +9,23 @@ import android.widget.ImageView;
 public class MainActivity extends Activity {
 
 	private TrackingScrollView mScroller;
+	private View mImageSpacer;
 	private ImageView mImage;
 	private View mPresentation;
-	private View mContent;
-	private Drawable mWindowDrawable;
+	private int mImageHeight;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		mWindowDrawable = getWindow().getDecorView().getBackground();
+		mImageSpacer = findViewById(R.id.image_space);
 
 		mImage = (ImageView) findViewById(R.id.image);
+		mImageHeight = mImage.getLayoutParams().height;
 
 		mScroller = (TrackingScrollView) findViewById(R.id.scroller);
+		mScroller.setSmoothScrollingEnabled(false);
 		mScroller.setOnScrollChangedListener(new TrackingScrollView.OnScrollChangedListener() {
 			@Override
 			public void onScrollChanged(TrackingScrollView source, int l, int t, int oldl, int oldt) {
@@ -32,52 +33,20 @@ public class MainActivity extends Activity {
 			}
 		});
 
-		mContent = findViewById(R.id.content);
-
 		mPresentation = findViewById(R.id.presentation);
 		centerViewVertically(mPresentation);
 	}
 
 	private void handleScroll(TrackingScrollView source, int top) {
-		final float actionBarHeight = getActionBar().getHeight();
-		final float scrollerVisibleHeight = mScroller.getHeight() - actionBarHeight;
-		final float scrollingPercent = Math.min(scrollerVisibleHeight, Math.max(0, top)) / scrollerVisibleHeight;
+		final float imageScrollingPercent = Math.min(mImageHeight, Math.max(0, top)) / (float) mImageHeight;
 
-		mImage.setTranslationY(-scrollerVisibleHeight / 3.0f * scrollingPercent);
+		// Increase spacer height on Y increase
+		mImageSpacer.getLayoutParams().height = (int) (mImageHeight * imageScrollingPercent);
+		mImageSpacer.setLayoutParams(mImageSpacer.getLayoutParams());
 
-		optimizeDrawing(source, scrollingPercent);
-	}
-
-	/**
-	 * Optimize drawing by removing Image View when completely covered.
-	 *
-	 * @param source
-	 * @param scrollingPercent
-	 */
-	private void optimizeDrawing(TrackingScrollView source, float scrollingPercent) {
-		final int newVisibility;
-		final Drawable newBackground;
-		// FIXME It sounds scary to have a strict comparison of floats
-		if (scrollingPercent < 1.0f) {
-			newVisibility = View.VISIBLE;
-			newBackground = mWindowDrawable;
-		} else {
-			// Don't draw the image if it's completely hidden by other view above it
-			newVisibility = View.GONE;
-			// Don't draw the window background image
-			newBackground = null;
-		}
-
-		final View decorView = getWindow().getDecorView();
-		Drawable currentDrawable = decorView.getBackground();
-
-		if (currentDrawable != newBackground) {
-			decorView.setBackgroundDrawable(newBackground);
-		}
-
-		if (mImage.getVisibility() != newVisibility) {
-			mImage.setVisibility(newVisibility);
-		}
+		// Shrink image height on Y increase
+		mImage.getLayoutParams().height = (int) (mImageHeight * (1 - imageScrollingPercent));
+		mImage.setLayoutParams(mImage.getLayoutParams());
 	}
 
 	private void centerViewVertically(View view) {

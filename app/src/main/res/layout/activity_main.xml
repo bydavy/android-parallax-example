@@ -2,13 +2,6 @@
        xmlns:tools="http://schemas.android.com/tools"
        tools:context="com.bydavy.parallax.app.MainActivity">
 
-    <ImageView
-            android:id="@+id/image"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/image_height"
-            android:src="@drawable/trona_pinnacles"
-            android:scaleType="centerCrop"/>
-
     <com.bydavy.parallax.app.TrackingScrollView
             android:id="@+id/scroller"
             android:layout_width="match_parent"
@@ -28,9 +21,17 @@
                         android:layout_height="match_parent"
                         android:orientation="vertical">
 
-                    <!-- Should have the same height as R.id.image -->
-                    <Space android:layout_width="wrap_content"
-                           android:layout_height="@dimen/image_height"/>
+                    <Space
+                           android:id="@+id/image_space"
+                           android:layout_width="match_parent"
+                           android:layout_height="0dp"/>
+
+                    <ImageView
+                            android:id="@+id/image"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/image_height"
+                            android:src="@drawable/trona_pinnacles"
+                            android:scaleType="centerCrop"/>
 
                     <include layout="@layout/content"/>
                 </LinearLayout>
@@ -49,7 +50,6 @@
 
                         android:text="Scroll down"/>
             </FrameLayout>
-
 
         </LinearLayout>
 
